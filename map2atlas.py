@@ -64,10 +64,10 @@ if __name__ == "__main__":
                         action='store_true')
 
     parser.add_argument('--parts',
-                        help='Run either part1, part2, or both parts of this '
+                        help='Run either part1, or part 1 and part2 of this '
                         'script (see under description). Default = both',
                         default="both",
-                        choices=["p1", "2", "both"])
+                        choices=["p1", "both"])
 
     args = parser.parse_args()
 
@@ -293,7 +293,7 @@ class map2atlas:
         # ** PART 2: Select ROIs that contain a sufficiently large portion of
         # ** the input image
         # ** -------------------------------------------------------------------
-        if args.parts == "p2" or args.parts == "both":
+        if args.parts == "both":
 
             # Select all ROIs that individually comprise a certain
             # (user-defined) part of a free-floating cluster of the input map
@@ -483,7 +483,7 @@ class map2atlas:
                     map(str, selection1)).replace(".0", " "))
 
             # *** Selected ROIs for Part 2
-            if args.parts == "p2" or args.parts == "both":
+            if args.parts == "both":
                 selection2 = self.output2[self.output2[:, 2] == 1]
                 selection2 = selection2[:, 1]
                 print("Part 2: [n=" + str(len(selection2)) + "]:  " + " ".join(
