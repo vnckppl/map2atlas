@@ -93,16 +93,12 @@ if testing:
                   '/20171002_Neuroimaging/20170629_Atlases'
                   '/20200107_Shen_in_MNI152/output/shenToMNI152.nii.gz')
 
-    args.outdir = ('/Users/vincent/Data/tmp/map2atlas_test')
+    args.outdir = ('/Users/vincent/Data/tmp/20210402_map2atlas_test')
 
-    args.othr1 = 60
-
-    args.othr2 = 40
-
-    args.mthr = [1, 5000]
-
+    args.othr1 = 20
+    args.othr2 = 10
+    args.mthr = [1, 100]
     args.com = True
-
     args.parts = "both"
 
 
@@ -348,7 +344,7 @@ class map2atlas:
                 # cluster and the size of the ROI in our output matrix.
 
                 # *** Look up ROI size
-                roisize = self.output1[self.output1[:, 0] == 2][0, 2]
+                roisize = self.output1[self.output1[:, 0] == i][0, 2]
 
                 # *** Only continue if the ROI size is bigger than the cluster
                 if roisize > clusize_t:
