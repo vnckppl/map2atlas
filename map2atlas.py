@@ -163,6 +163,7 @@ class map2atlas:
                 self.reslice.inputs.out_file = self.outfile
                 self.reslice.inputs.reslice_like = mapf
                 self.reslice.inputs.resample_type = 'nearest'
+                self.reslice.terminal_output = 'none'
                 self.results = self.reslice.run()
 
                 # *** List unique ROI values in the atlas file
@@ -177,9 +178,13 @@ class map2atlas:
         )
 
         # ** -------------------------------------------------------------------
-        # ** PART 1: Select ROIs that sufficiently inside the map image
+        # ** PART 1: Select ROIs that sufficiently fit inside the map image
         # ** -------------------------------------------------------------------
         if args.parts == "p1" or args.parts == "both":
+
+            # ** Announce
+            print("PART 1: Selecting ROIs that sufficiently fit inside the map"
+                  "image...")
 
             # ** Function to test if atlas ROI overlaps with the map
             def test_roi(i, atld, mapd, thr):
@@ -286,7 +291,7 @@ class map2atlas:
 
         # ** -------------------------------------------------------------------
         # ** PART 2: Select ROIs that contain a sufficiently large portion of
-        # ** of the input image
+        # ** the input image
         # ** -------------------------------------------------------------------
         if args.parts == "p2" or args.parts == "both":
 
@@ -295,6 +300,10 @@ class map2atlas:
             # image. This can be helpful if the map contains small clusters that
             # are of interest, but which are not big enough to fill an entire
             # ROI for the user-defined threshold percentage.
+
+            # ** Announce
+            print("PART 2: Selecting ROIs that contain a sufficiently large "
+                  "portion of the input image...")
 
             # ** Convert the input map into individual clusters
             # A cluster is defined as a cluster of ones surrounded by zeros in
@@ -311,6 +320,7 @@ class map2atlas:
                     self.cl.inputs.threshold = 1
                     self.cl.inputs.in_file = maptr
                     self.cl.inputs.out_index_file = self.outfile
+                    self.cl.terminal_output = 'none'
                     self.results = self.cl.run()
 
                     # *** List the number of clusters
@@ -450,6 +460,10 @@ class map2atlas:
         # ** PART 3: Create an output image with all clusters
         # ** -------------------------------------------------------------------
 
+        # ** Announce
+        print("Creating an output nifti image with all selected clusters...")
+        print("\nSelected ROIs:")
+
         # ** Function to create output image
         # That is, all selected ROIs with their original values
         def build_outimg(omatrix, atld):
@@ -465,19 +479,22 @@ class map2atlas:
             if args.parts == "p1" or args.parts == "both":
                 selection1 = self.output1[self.output1[:, 1] == 1]
                 selection1 = selection1[:, 0]
-                print("Part 1: " + str(selection1))
+                print("Part 1: [n=" + str(len(selection1)) + "]:  " + " ".join(
+                    map(str, selection1)).replace(".0", " "))
 
             # *** Selected ROIs for Part 2
             if args.parts == "p2" or args.parts == "both":
                 selection2 = self.output2[self.output2[:, 2] == 1]
                 selection2 = selection2[:, 1]
-                print("Part 2: " + str(selection2))
+                print("Part 2: [n=" + str(len(selection2)) + "]:  " + " ".join(
+                    map(str, selection2)).replace(".0", " "))
 
             # *** Combine selections
             selection = np.concatenate((selection1, selection2))
             selection = np.unique(selection)
             if args.parts == "both":
-                print("Total: " + str(selection))
+                print("Total:  [n=" + str(len(selection)) + "]:  " + " ".join(
+                    map(str, selection)).replace(".0", " "))
 
             # ** Loop over selected ROIs and add them together
             for ROI in selection:
