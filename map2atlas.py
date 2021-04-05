@@ -482,6 +482,13 @@ class map2atlas:
                 print("Part 1: [n=" + str(len(selection1)) + "]:  " + " ".join(
                     map(str, selection1)).replace(".0", " "))
 
+            # *** Write out final selection if only Part 1 was selected
+            if args.parts == "p1":
+                data = ",".join(map(str, selection1)).replace(".0", "")
+                ofile = self.args.outdir + '/ROI_selection_list.csv'
+                with open(ofile, 'w') as fp:
+                    fp.write(data)
+
             # *** Selected ROIs for Part 2
             if args.parts == "both":
                 selection2 = self.output2[self.output2[:, 2] == 1]
@@ -495,6 +502,13 @@ class map2atlas:
             if args.parts == "both":
                 print("Total:  [n=" + str(len(selection)) + "]:  " + " ".join(
                     map(str, selection)).replace(".0", " "))
+
+            # *** Write out final selection if 'Both' was selected
+            if args.parts == "both":
+                data = ",".join(map(str, selection)).replace(".0", "")
+                ofile = self.args.outdir + '/ROI_selection_list.csv'
+                with open(ofile, 'w') as fp:
+                    fp.write(data)
 
             # ** Loop over selected ROIs and add them together
             for ROI in selection:
