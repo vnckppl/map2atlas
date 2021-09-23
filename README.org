@@ -99,27 +99,27 @@ fsleyes \
 *** Screenshots of example input and output 
 **** Input DMN map
 #+ATTR_ORG: :width 300px
-#+ATTR_HTML: :width 900px
+#+ATTR_HTML: :width 600px
 [[SS/Screen Shot 2021-04-03 at 08.06.27.png]]
 
 **** Input map with treshold applied by map2atlas outlined in green
 #+ATTR_ORG: :width 300px
-#+ATTR_HTML: :width 900px
-[[file:SS/Screen Shot 2021-04-03 at 08.06.32.png]]
+#+ATTR_HTML: :width 600px
+[[SS/Screen Shot 2021-04-03 at 08.06.32.png]]
 
 **** Input Shen atlas
 #+ATTR_ORG: :width 300px
-#+ATTR_HTML: :width 900px
-[[file:SS/Screen Shot 2021-04-03 at 08.06.46.png]]
+#+ATTR_HTML: :width 600px
+[[SS/Screen Shot 2021-04-03 at 08.06.46.png]]
 
 /Note that the input Shen atlas is resampled to the input DMN map which is missing the lower part of the cerebellum and which is the reason the resampled map is also missing the bottom part of the cerebellum./
 
 **** Thresholded map outline overlayed on the input Shen atlas
 #+ATTR_ORG: :width 300px
-#+ATTR_HTML: :width 900px
-[[file:SS/Screen Shot 2021-04-03 at 08.06.51.png]]
+#+ATTR_HTML: :width 600px
+[[SS/Screen Shot 2021-04-03 at 08.06.51.png]]
 
 **** Script output: Selected parcels based on user defined thresholds
 #+ATTR_ORG: :width 300px
-#+ATTR_HTML: :width 900px
-[[file:SS/Screen Shot 2021-04-03 at 08.07.01.png]]
+#+ATTR_HTML: :width 600px
+[[SS/Screen Shot 2021-04-03 at 08.07.01.png]]
