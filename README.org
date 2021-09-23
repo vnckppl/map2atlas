@@ -100,7 +100,7 @@ fsleyes \
 **** Input DMN map
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :width 900px
-[[file:./SS/Screen Shot 2021-04-03 at 08.06.27.png]]
+[[SS/Screen Shot 2021-04-03 at 08.06.27.png]]
 
 **** Input map with treshold applied by map2atlas outlined in green
 #+ATTR_ORG: :width 300px
