@@ -85,21 +85,22 @@ Total:  [n=18]:  5  42  43  47  48  83  85  88  90  140  176  182  183 222  223 
 #+end_example
 
 *** Display example output
+You can display the results of the output with the shell script below, assuming you have FSLeyes installed and in your path.
 #+begin_src bash
 fsleyes \
     -ds world \
     "${FSLDIR}"/data/standard/MNI152_T1_0.5mm.nii.gz \
-    "${map}" -cm red-yellow -dr 0 3 -n DMN \
-    "${odir}"/atlas_r.nii.gz -ot label --lut random_big -w 0 -n Shen256 \
-    "${odir}"/ROI_selection.nii.gz -ot label --lut random_big -w 0 -n Selected_ROIs \
-    "${odir}"/map_t -ot label -o -w 3 --lut random
+    DMN.nii.gz -cm red-yellow -dr 0 3 -n DMN \
+    "${odir}/atlas_r.nii.gz" -ot label --lut random_big -w 0 -n Shen256 \
+    "${odir}/ROI_selection.nii.gz" -ot label --lut random_big -w 0 -n Selected_ROIs \
+    "${odir}/map_t" -ot label -o -w 3 --lut random
 #+end_src
 
 *** Screenshots of example input and output 
 **** Input DMN map
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :width 900px
-[[file:SS/Screen Shot 2021-04-03 at 08.06.27.png]]
+[[file:./SS/Screen Shot 2021-04-03 at 08.06.27.png]]
 
 **** Input map with treshold applied by map2atlas outlined in green
 #+ATTR_ORG: :width 300px
