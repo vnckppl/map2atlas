@@ -1,0 +1,124 @@
+* map2atlas
+
+** Background
+map2atlas is a command line tool written in Python that takes in a nifti scalar map (e.g., a gray matter map, an ICA map, or a T-score map) and a nifti atlas file (e.g., the Shen atlas) in the same orientation (e.g., both need to be in MNI space or both need to be in native space). The tool then selects all atlas parcels that have a predefined (user defined) percentage of overlap with the map at a certain (user defined) threshold. Note that the atlas and input image only need to be in the same orientation, but it is not required that they are the same size (either voxel size or voxel dimensions). The script returns a nifti map of selected parcels, a text file with the indices of the selected parcels, report files that show the overlap between parcels and the thresholded input map.
+
+** Requirements
+This script requires FreeSurfer's =mri_convert= to be installed and in your path (which is installed on Mnemosyne and in your path by default). Furthermore, this script uses several Python libraries. Run the following code in your terminal to install all necessary libraries:
+
+#+begin_src bash
+python3 -m pip install -U \
+        nibabel \
+        numpy \
+        scipy \
+        nipype
+#+end_src
+
+** Command line options
+To see all map2atlas CLI options run =map2atlas.py -h=. This will show the following output:
+
+#+begin_example
+usage: map2atlas.py [-h] [--othr1 [0-100]] [--othr2 [0-100]] [--mthr low high]
+                    [--com] [--parts {p1,both}]
+                    mapf atlas outdir
+
+map2atlas
+
+positional arguments:
+  mapf               The input image for which you want to know which atlas
+                     ROIs it overlaps with.
+  atlas              Atlas from which you want to know which ROIs overlap with
+                     your map file.
+  outdir             Output folder
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --othr1 [0-100]    Minimal percent overlap of the ROI with the map to be
+                     selected. E.g., an ROI needs to be filled for at least x
+                     percent by the map before it will be selected. Default is
+                     50 percent.
+  --othr2 [0-100]    Minimal percent overlap of the map clusters and the ROI
+                     to be selected. Default is 50 percent. E.g., After the
+                     map is broken up into clusters, each needs to fit for at
+                     least x percent inside an ROI before that ROI is
+                     selected. Default = 50 percent
+  --mthr low high    Map threshold (lower, upper) level to create a binary
+                     image from your map file. Default = 0,1.
+  --com              Only select ROIs if their center-of-mass is inside the
+                     map.
+  --parts {p1,both}  Run either part1, or part 1 and part2 of this script (see
+                     under description). Default = both
+#+end_example
+
+** Example
+*** Example Run
+An example of how to call the script from a shell terminal using the example data provided with this repository:
+#+begin_src bash
+# * Environment
+odir="${HOME}/map2atlas_test"
+mkdir -p "${odir}"
+
+# * Run function
+python3 map2atlas.py \
+        DMN.nii.gz \
+        shenToMNI152.nii.gz \
+        "${odir}" \
+        --othr1 20 \
+        --othr2 10 \
+        --mthr 1 100 \
+        --parts both \
+        --com
+#+end_src
+
+When you run this example and everything went well, you should see the following output in your terminal:
+
+#+begin_example
+PART 1: Selecting ROIs that sufficiently fit inside the mapimage...
+PART 2: Selecting ROIs that contain a sufficiently large portion of the
+input image...
+Creating an output nifti image with all selected clusters...
+
+Selected ROIs:
+Part 1: [n=16]:  5  42  48  83  85  88  90  140  176  182  183  222  223 224  225  227 
+Part 2: [n=8]:  43  47  48  182  183  5  83  140 
+Total:  [n=18]:  5  42  43  47  48  83  85  88  90  140  176  182  183 222  223  224  225  227 
+#+end_example
+
+*** Display example output
+#+begin_src bash
+fsleyes \
+    -ds world \
+    "${FSLDIR}"/data/standard/MNI152_T1_0.5mm.nii.gz \
+    "${map}" -cm red-yellow -dr 0 3 -n DMN \
+    "${odir}"/atlas_r.nii.gz -ot label --lut random_big -w 0 -n Shen256 \
+    "${odir}"/ROI_selection.nii.gz -ot label --lut random_big -w 0 -n Selected_ROIs \
+    "${odir}"/map_t -ot label -o -w 3 --lut random
+#+end_src
+
+*** Screenshots of example input and output 
+**** Input DMN map
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 900px
+[[file:SS/Screen Shot 2021-04-03 at 08.06.27.png]]
+
+**** Input map with treshold applied by map2atlas outlined in green
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 900px
+[[file:SS/Screen Shot 2021-04-03 at 08.06.32.png]]
+
+**** Input Shen atlas
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 900px
+[[file:SS/Screen Shot 2021-04-03 at 08.06.46.png]]
+
+/Note that the input Shen atlas is resampled to the input DMN map which is missing the lower part of the cerebellum and which is the reason the resampled map is also missing the bottom part of the cerebellum./
+
+**** Thresholded map outline overlayed on the input Shen atlas
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 900px
+[[file:SS/Screen Shot 2021-04-03 at 08.06.51.png]]
+
+**** Script output: Selected parcels based on user defined thresholds
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 900px
+[[file:SS/Screen Shot 2021-04-03 at 08.07.01.png]]
