@@ -2,7 +2,7 @@
 
 # * map2atlas
 # Vincent Koppelmans
-# 2021-04-02
+# 2021-09-23
 
 # * Libraries
 import argparse
@@ -75,32 +75,6 @@ if __name__ == "__main__":
 # * Empty Object Creator
 class Scratch(object):
     pass
-
-
-# * For testing
-testing = False
-if testing:
-    args = Scratch()
-
-    # Default mode network Zmap
-    args.mapf = ('/Users/vincent/Data/Documents/Utah/Kladblok'
-                 '/20170616_Weisenbach/20170822_Suicide'
-                 '/20170823_Suicide_Proposal_Prelim/03_WFND/20_components'
-                 '/Images_for_Proposal/2D/DMN.nii.gz')
-
-    # Shen Atlas in MNI space
-    args.atlas = ('/Users/vincent/Data/Documents/Utah/Kladblok'
-                  '/20171002_Neuroimaging/20170629_Atlases'
-                  '/20200107_Shen_in_MNI152/output/shenToMNI152.nii.gz')
-
-    args.outdir = ('/Users/vincent/Data/tmp/20210402_map2atlas_test')
-
-    args.othr1 = 20
-    args.othr2 = 10
-    args.mthr = [1, 100]
-    args.com = True
-    args.parts = "both"
-
 
 # * Build map2atlas Object
 class map2atlas:
