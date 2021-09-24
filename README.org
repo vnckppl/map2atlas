@@ -4,7 +4,7 @@
 map2atlas is a command line tool written in Python that takes in a nifti scalar map (e.g., a gray matter map, an ICA map, or a T-score map) and a nifti atlas file (e.g., the Shen atlas) in the same orientation (e.g., both need to be in MNI space or both need to be in native space). The tool then selects all atlas parcels that have a predefined (user defined) percentage of overlap with the map at a certain (user defined) threshold. Note that the atlas and input image only need to be in the same orientation, but it is not required that they are the same size (either voxel size or voxel dimensions). The script returns a nifti map of selected parcels, a text file with the indices of the selected parcels, report files that show the overlap between parcels and the thresholded input map.
 
 ** Requirements
-This script requires FreeSurfer's =mri_convert= to be installed and in your path (which is installed on Mnemosyne and in your path by default). Furthermore, this script uses several Python libraries. Run the following code in your terminal to install all necessary libraries:
+This script requires working versions of [[https://surfer.nmr.mgh.harvard.edu/][FreeSurfer]] and [[https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/][FSL]] to be installed and in your path (which is installed on Mnemosyne and in your path by default). Furthermore, this script uses several Python libraries. Run the following code in your terminal to install all necessary libraries:
 
 #+begin_src bash
 python3 -m pip install -U \
