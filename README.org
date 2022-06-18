@@ -172,3 +172,8 @@ exit
 #+attr_org: :width 300px
 #+attr_html: :width 800px
 [[SS/optimization_plot.png]]
+
+*Interpretation*
+- The ~o~ on the plot marks the optimal combination of threshold 1 and threshold 2.
+- The ~x~ symbols mark values where the percentage of atlas clusters outside the mask exceeds 5%. The corresponding threshold values should not be selected.
+- Note that lines for different combinations of thresholds may overlap and may therefore appear invisible.
