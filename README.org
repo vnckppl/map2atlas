@@ -123,3 +123,52 @@ fsleyes \
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :width 600px
 [[SS/Screen Shot 2021-04-03 at 08.07.01.png]]
+
+** Optimization
+The folder [[optimization]] contains a shell script that allows for identification of the optimal settings for threshold 1 (=--othr1=: the minimal percent overlap of the ROI with the selected map) and threshold 2 (=--othr2=: the minimal percent overlap of the map clusters and the ROI to be selected).
+
+The optimal values for ~othr1~ and ~othr2~ are identified by looping over all of their combinations ranging from 5 to 100 with increments of 5. For each of these pairs, it calculates 1) the percent of voxels of selected atlas clusters that are inside the mask (good overlap); 2) the percent of voxels of selected atlas clusters that are outside the mask (unwanted overlap); 3) the difference between these two steps. The optimal threshold values are defined as those values where the difference is maximized, but where the percentage of voxels outside the mask does not exceed 5%.
+
+This optimization script returns the optimal values for threshold 1 and threshold 2 to the shell and uses R + ggplot to write out a plot displaying the combinations of thresholds and maximized differences. This requires [[https://www.r-project.org/][R]] and the [[https://ggplot2.tidyverse.org/][ggplot2]] package to be installed on your system.
+
+The optimization function ~plot_clusters_iteratively.sh~ has the following options:
+#+begin_example
+    Mandatory options:
+    -f path to map2atlas.py script
+    -o output folder where data will be written to
+    -m map (nifti file) of area you want to grab clusters from your atlas for
+    -a altas (nifti file) with integers representing areas of the same cluster
+    -l threshold
+    -h threshold
+    -p indicate if you to run both threshold1 and threshold2
+
+    Optional options:
+    -s take a screenshot of the selected ROIs
+#+end_example
+
+You can call it for example using:
+#+begin_src bash
+# * Environment
+iter_func="/path/to/scripts/plot_clusters_iteratively.sh"
+ma2a_func="/path/to/scripts/map2atlas.py"
+odir="/path/to/output"
+map="/path/to/input/DMN.nii.gz"
+atlas="/path/to/input/shenToMNI152.nii.gz"
+
+# * Run function
+${iter_func} \
+    -f ${ma2a_func} \
+    -o ${odir} \
+    -m ${map} \
+    -a ${atlas} \
+    -l 1 \
+    -h 100 \
+    -p "both"
+
+exit
+#+end_src
+
+#+caption: Example Output
+#+attr_org: :width 300px
+#+attr_html: :width 800px
+[[SS/optimization_plot.png]]
